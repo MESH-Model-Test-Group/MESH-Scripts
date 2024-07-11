@@ -30,6 +30,9 @@ Revision History
     20221116 -- 1) removed .csv column reordering. No longer necessary due to gistool bug fix
     20221123 -- 1) added functionality to read I/O from control file.
     20230202 -- 1) added lines to convert the tosegment fill value to 0.
+
+    20240711 -- 1) rename "gru" dimension to "NGRU" to be consistent with the 
+                    recent version of MESH code release
 See also 
     
 Reference 
@@ -398,8 +401,8 @@ tt = drainage_db['time'].values
 
 lc_ds =  xs.Dataset(
     {
-        "GRU": (["subbasin", "gru"], lc_frac.values),
-        "LandUse": (["gru"], lc_type),
+        "GRU": (["subbasin", "NGRU"], lc_frac.values),
+        "LandUse": (["NGRU"], lc_type),
     },
     coords={
         "lon": (["subbasin"], lon),
@@ -436,13 +439,13 @@ lc_ds['crs'] = drainage_db['crs'].copy()
 #lc_ds['GRU'].values = lc_ds['GRU'].values[reorder,:]
 
 # %% Append land cover information to existing drainage database 
-drainage_db["GRU"] = (["subbasin", "gru"], lc_frac.values)
+drainage_db["GRU"] = (["subbasin", "NGRU"], lc_frac.values)
 drainage_db['GRU'].attrs['standard_name'] = 'GRU'
 drainage_db['GRU'].attrs['long_name'] = 'Group Response Unit'
 drainage_db['GRU'].attrs['units'] = '-'
 drainage_db['GRU'].attrs['_FillValue'] = -1
 
-drainage_db["LandUse"] = (["gru"], lc_type)
+drainage_db["LandUse"] = (["NGRU"], lc_type)
 
 # Set the 'coords' of the dataset to the new axes.
 drainage_db = drainage_db.set_coords(['time', 'lon', 'lat'])
